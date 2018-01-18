@@ -70,9 +70,22 @@ val test16 = concat_with("a",["b","n","na"]) = "banana"
 val test17 = quote_string "foo" = "\"foo\""
 
 val test18 = real_to_string_for_json ~4.305 = "-4.305"
-		 (* 
+val json_obj_2   = Object [("foo", json_pi), ("bar", json_array), ("ok", True), ("added", json_obj)]
 val test19 = json_to_string json_obj = 
              "{\"foo\" : 3.14159, \"bar\" : [1.0, \"world\", null], \"ok\" : true}"
+val test1901 = json_to_string json_obj_2 =
+	       "{\"foo\" : 3.14159, \"bar\" : [1.0, \"world\", null], \"ok\" : true, \"added\" : {\"foo\" : 3.14159, \"bar\" : [1.0, \"world\", null], \"ok\" : true}}"
+
+val test1902 = json_to_string (Object []) = "{}"
+val test1903 = json_to_string (Object [("hey", Object [])]) = "{\"hey\" : {}}"
+		 (* 
+val json_pi    = Num 3.14159
+val json_hello = String "hello"
+val json_false = False
+val json_array = Array [Num 1.0, String "world", Null]
+val json_obj   = Object [("foo", json_pi), ("bar", json_array), ("ok", True)]
+
+
 
 (* End of tests for required problems. A few commented-out tests for
    challenge problems follow.  The tests below are in a different style 

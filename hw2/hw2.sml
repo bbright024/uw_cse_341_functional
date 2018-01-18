@@ -233,10 +233,30 @@ fun quote_string (str) = "\"" ^ str ^ "\""
 fun real_to_string_for_json (realnum) =
     if realnum < 0.0 then "-" ^ real_to_string(real_abs(realnum))
     else real_to_string(realnum)
-(*
-fun json_to_string (json_obj) =
-    s
- For CHALLENGE PROBLEMS, see hw2challenge.sml *)
+
+fun json_to_string (jsony) =
+    let fun array_proc(js_list, accu) =
+	    case js_list of
+		[] => accu
+	      | js_obj1::js_li' => json_to_string(js_obj1)::array_proc(js_li', accu)
+									     
+	fun obj_proc(str_js_li, accu) =
+	    case str_js_li of
+		[] => accu
+	      | (s1, jobj)::li' => (quote_string(s1)^" : "^json_to_string(jobj))::obj_proc(li', accu)
+    in
+	case jsony of
+	    Array js_li => "[" ^ concat_with(", ", array_proc(js_li, [])) ^ "]"
+	  | Object str_js_li  => "{" ^ concat_with(", ", obj_proc(str_js_li, [])) ^ "}"
+	  | Num n => real_to_string_for_json(n)
+	  | False => "false"
+	  | True => "true"
+	  | Null => "null"
+	  | String s => quote_string(s)
+    end 
+	    
+
+	(* For CHALLENGE PROBLEMS, see hw2challenge.sml *)
 
 
 
